@@ -17,12 +17,14 @@ Mesh3D fromAssimpMesh(const aiMesh* mesh, const StbImage& texture) {
 	// has x, y, and z values that you can use to construct a Vertex3D object.
 	// To find the u and v texture coordinates of a vertex, access the 
 	// x and y fields of each element of mTextureCoords.
-	for (size_t i = 0; i < mesh->mNumVertices; i++) {
+	for (size_t i = 0; i < mesh->mNumVertices; i++) 
+	{
 		auto& meshVertex = mesh->mVertices[i];
 		auto& texCoord = mesh->mTextureCoords[0][i];
-		
+		Vertex3D vert = {meshVertex.x,meshVertex.y,meshVertex.z,texCoord.x,texCoord.y};
+		vertices.push_back(vert);
 		// See above.
-
+		
 	}
 
 	std::vector<uint32_t> faces;
@@ -33,6 +35,9 @@ Mesh3D fromAssimpMesh(const aiMesh* mesh, const StbImage& texture) {
 	// the faces list.
 	for (size_t i = 0; i < mesh->mNumFaces; i++) {
 		auto& meshFace = mesh->mFaces[i];
+		faces.push_back(meshFace.mIndices[0]);
+		faces.push_back(meshFace.mIndices[1]);
+		faces.push_back(meshFace.mIndices[2]);
 		// See above.
 
 

@@ -21,6 +21,7 @@ We now transform local space vertices to clip space using uniform matrices in th
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Window.hpp>
 
+
 // You will need to add your own AssimpImport.cpp from HW 4 if you want to load
 // other meshes.
 
@@ -32,8 +33,11 @@ struct Scene {
 ShaderProgram textureShader() {
 	ShaderProgram shader;
 	try {
-		shader.load("shaders/texture_perspective.vert", "shaders/texturing.frag");
+		shader.load("shaders/texture_perspective.vert", "shaders/texture_inverted.frag");
+		//shader.load("shaders/texture_perspective.vert", "shaders/texturing.frag");
+
 	}
+
 	catch (std::runtime_error& e) {
 		std::cout << "ERROR: " << e.what() << std::endl;
 		exit(1);
@@ -59,7 +63,7 @@ Scene bunnyTextured() {
 // A scene of a textured triangle.
 Scene triangle() {
 	StbImage wall;
-	wall.loadFromFile("models/wall.jpg");
+	wall.loadFromFile("models/pastel.jpg");
 
 	auto triangle = Object3D(std::make_shared<Mesh3D>(Mesh3D::triangle(wall)));
 	triangle.move(glm::vec3(0, 0, -2));
@@ -89,7 +93,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 
 	// Inintialize scene objects.
-	auto myScene = triangle();
+	auto myScene = bunnyTextured();
 	auto& obj = myScene.objects[0];
 
 	// Activate the shader program.
